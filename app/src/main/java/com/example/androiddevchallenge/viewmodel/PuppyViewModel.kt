@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.viewmodel
 
-import androidx.compose.material.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import com.example.androiddevchallenge.models.Puppy
+import com.example.androiddevchallenge.repository.PuppyRepository
 
-// Set of Material typography styles to start with
-val typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    ),
-    h6 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp
-    )
-)
+class PuppyViewModel : ViewModel() {
+
+    private val repository: PuppyRepository = PuppyRepository()
+
+    fun getPuppies(context: Context): MutableList<Puppy> {
+        return repository.getPuppies(context)
+    }
+}

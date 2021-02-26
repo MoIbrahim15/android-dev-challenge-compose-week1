@@ -13,42 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge
+package com.example.androiddevchallenge.ui.screens.main
 
 import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.models.Puppy
+import com.example.androiddevchallenge.ui.screens.base.BaseActivity
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.viewmodel.PuppyViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+
+    private lateinit var viewModel: PuppyViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MyTheme {
-                MyApp()
-            }
-        }
+        viewModel = ViewModelProvider(this).get(PuppyViewModel::class.java)
+    }
+
+    @Composable
+    override fun ActivityContent() {
+        PuppiesMain(viewModel.getPuppies(this))
+    }
+
+    override fun toolbarTitle(): String {
+        return getString(R.string.app_name)
     }
 }
 
-// Start building your app here!
 @Composable
-fun MyApp() {
-    Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
-    }
+fun PuppiesMain(puppies: MutableList<Puppy>) {
+    PuppiesList(puppies = puppies)
 }
 
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun LightPreview() {
     MyTheme {
-        MyApp()
+        PuppiesMain(mutableListOf())
     }
 }
 
@@ -56,6 +61,6 @@ fun LightPreview() {
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
-        MyApp()
+        PuppiesMain(mutableListOf())
     }
 }
